@@ -1,0 +1,48 @@
+{
+  "name": "pages-redux",
+  "title": "pages-redux",
+  "description": "The declarative pages architecture for building web UI working with redux.",
+  "keywords": [
+    "ui",
+    "react",
+    "declarative",
+    "functional",
+    "page",
+    "pages"
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Zhang Kai Yu",
+    "email": "yeannylam@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangkaiyulw/pages-redux"
+  },
+  "homepage": "https://github.com/zhangkaiyulw/pages-redux",
+  "main": "./index.js",
+  "files": [
+    "package.json",
+    "index.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "mocha test.js --compilers js:babel-register --ui tdd",
+    "compile": "babel src.js --out-file index.js",
+    "prepublish": "npm run-script compile"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "lodash": "^4.13.1"
+  }
+}
