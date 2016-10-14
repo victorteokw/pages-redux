@@ -33,6 +33,8 @@ export function createReplacePagePropsAction(path, props) {
   }
 }
 
+// Custom page actions not tested
+
 let pageActions = {};
 
 export function addPageAction(type, transformer) {
@@ -49,7 +51,7 @@ function applyTransformer(transformer, state, action) {
   return replaceChildPagePropsAtPath(path, transformer(subState.props, action), state);
 }
 
-export default function createPageReducer(initialState) {
+export function createPageReducer(initialState) {
 
   let actionTypes = [SET_PAGE_PROPS, REPLACE_PAGE_PROPS].concat(keys(pageActions));
 
