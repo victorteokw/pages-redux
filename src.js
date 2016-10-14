@@ -35,21 +35,21 @@ export function createReplacePagePropsAction(path, props) {
 
 // Custom page actions not tested
 
-let pageActions = {};
-
-export function addPageAction(type, transformer) {
-  pageActions[type] = transformer;
-}
+// let pageActions = {};
+//
+// export function addPageAction(type, transformer) {
+//   pageActions[type] = transformer;
+// }
+//
+// function applyTransformer(transformer, state, action) {
+//   let {path} = action.payload;
+//   let subState = subStateAtPath(state, path);
+//   let newAction = cloneDeep(action);
+//   delete newAction.payload.path;
+//   return replaceChildPagePropsAtPath(path, transformer(subState.props, action), state);
+// }
 
 // Reducer
-
-function applyTransformer(transformer, state, action) {
-  let {path} = action.payload;
-  let subState = subStateAtPath(state, path);
-  let newAction = cloneDeep(action);
-  delete newAction.payload.path;
-  return replaceChildPagePropsAtPath(path, transformer(subState.props, action), state);
-}
 
 export function createPageReducer(initialState) {
 
