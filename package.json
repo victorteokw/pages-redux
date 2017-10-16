@@ -10,7 +10,7 @@
     "page",
     "pages"
   ],
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "author": {
     "name": "Zhang Kai Yu",
@@ -43,7 +43,7 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
-    "pages-core": "0.1.0",
+    "pages-core": "0.3.0",
     "lodash": "^4.13.1"
   }
 }

@@ -15,7 +15,7 @@ var _drop = require('lodash/drop');
 
 var _drop2 = _interopRequireDefault(_drop);
 
-var _pagesCore = require('./pages-core');
+var _pagesCore = require('pages-core');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

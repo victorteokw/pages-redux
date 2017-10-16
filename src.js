@@ -5,7 +5,7 @@ import {
   setPageProps,
   replacePageProps,
   transformPageProps
-} from './pages-core';
+} from 'pages-core';
 
 let handledActions = [SET_PAGE_PROPS, REPLACE_PAGE_PROPS];
 let transformers = {};
