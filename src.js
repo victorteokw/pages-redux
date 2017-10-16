@@ -1,83 +1,45 @@
-import {setPageProps, replacePageProps} from 'pages-core';
-
 import includes from 'lodash/includes';
-import cloneDeep from 'lodash/cloneDeep';
 import drop from 'lodash/drop';
-import keys from 'lodash/keys';
 
-// Action Types
+import {
+  setPageProps,
+  replacePageProps,
+  transformPageProps
+} from './pages-core';
+
+let handledActions = [SET_PAGE_PROPS, REPLACE_PAGE_PROPS];
+let transformers = {};
 
 export const SET_PAGE_PROPS = 'SET_PAGE_PROPS';
-
 export const REPLACE_PAGE_PROPS = 'REPLACE_PAGE_PROPS';
 
-// Action Creators
-
-export function createSetPagePropsAction(path, props) {
-  return {
-    type: SET_PAGE_PROPS,
-    payload: {
-      path,
-      props
-    }
-  }
-}
-
-export function createReplacePagePropsAction(path, props) {
-  return {
-    type: REPLACE_PAGE_PROPS,
-    payload: {
-      path,
-      props
-    }
-  }
-}
-
-// Custom page actions not tested
-
-// let pageActions = {};
-//
-// export function addPageAction(type, transformer) {
-//   pageActions[type] = transformer;
-// }
-//
-// function applyTransformer(transformer, state, action) {
-//   let {path} = action.payload;
-//   let subState = subStateAtPath(state, path);
-//   let newAction = cloneDeep(action);
-//   delete newAction.payload.path;
-//   return replaceChildPagePropsAtPath(path, transformer(subState.props, action), state);
-// }
-
-// Reducer
-
-export function createPageReducer(initialState) {
-
-  let actionTypes = [SET_PAGE_PROPS, REPLACE_PAGE_PROPS].concat(keys(pageActions));
-
-  return function(state = initialState, action) {
-
-    if (!includes(actionTypes, action.type)) {
+export function createRootPageReducer(rootPageState) {
+  return function (state = rootPageState, action) {
+    // Just return state if the action is not a pages action.
+    if (!includes(handledActions, action.type)) {
       return state;
     }
-
-    let {path, props} = action.payload;
-
-    if (path[0] === state.key) {
-      switch (action.type) {
-        case SET_PAGE_PROPS:
-          return setPageProps(cloneDeep(state), drop(path), props);
-        case REPLACE_PAGE_PROPS:
-          return replacePageProps(cloneDeep(state), drop(path), props);
-        default:
-          if (action.type in pageActions) {
-            let transformer = pageActions[action.type];
-            return applyTransformer(transformer, cloneDeep(state), action);
-          }
-          return state;
-      }
+    let root = state, {path, props} = action.payload;
+    if (path[0] !== state.key) {
+      return state;
     }
+    if (action.type === SET_PAGE_PROPS) {
+      return setPageProps(root, drop(path), props);
+    } else if (action.type === REPLACE_PAGE_PROPS) {
+      return replacePageProps(root, drop(path), props);
+    } else {
+      let transformer = transformers[action.type];
+      return transformPageProps(root, drop(path), function(old) {
+        return transformer(old, action);
+      });
+    }
+  };
+}
 
-    return state;
+export function definePageAction(type, transformer) {
+  if (includes(handledActions, type)) {
+    throw `Redefine action ${type}`;
   }
+  handledActions.push(type);
+  transformers[type] = transformer;
 }
